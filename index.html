@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG 기반 공공기관 법률 AI 어시스턴트 | 제1회 법령데이터 활용 아이디어 공모전</title>
+    <!-- Chosen Palette: Custom Professional Blue (BG: #f8f9fa, Text: #212529, Primary: #0d6efd, Accent: #0dcaf0) -->
+    <!-- Application Structure Plan: A single-page narrative SPA designed to 'sell' the project idea. It flows from the problem to the solution, features, technical plan, and impact. This structure is more persuasive and engaging than a direct 1:1 mapping of the report, guiding the user (judge) through a compelling story of innovation and feasibility. Key interaction is a tabbed view for core features to present detailed UI mockups without cluttering the main page. -->
+    <!-- Visualization & Content Choices: 
+    - Problem/Impact: Large stats (HTML) -> Goal: Inform -> Justification: High-impact summary.
+    - RAG Architecture: HTML/CSS flowchart -> Goal: Organize -> Justification: Visually explains the core tech without SVG/Mermaid.
+    - Core Features: Static UI mockups in tabs (HTML/CSS) -> Goal: Demonstrate -> Justification: Makes the proposed service tangible and concrete.
+    - Roadmap: Gantt Chart (Chart.js) -> Goal: Change (over time) -> Justification: Professional visualization of the project plan.
+    - Tech Stack: Icon-like list (HTML/CSS) -> Goal: Inform -> Justification: Modern, scannable display. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            max-height: 500px;
+        }
+        .section-title {
+            font-weight: 900;
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+            color: #003366;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #495057;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+        }
+        .tab-button.active {
+            border-color: #0d6efd;
+            background-color: #0d6efd;
+            color: white;
+            font-weight: 700;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .flow-node {
+            border: 2px solid #dee2e6;
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .flow-arrow {
+            color: #0d6efd;
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .mockup-window {
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+            background-color: white;
+        }
+        .mockup-header {
+            background-color: #e9ecef;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .mockup-dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-gradient-to-br from-[#003366] to-[#005CB9] text-white text-center py-16 px-6">
+        <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">AI, 공공 법무를 혁신하다</h1>
+        <p class="text-lg md:text-xl max-w-3xl mx-auto font-light text-blue-200">RAG 기반 지능형 법률 어시스턴트: 정확하고 효율적인 법률 업무의 새로운 기준</p>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+
+        <section id="problem" class="mb-24 text-center">
+            <h2 class="section-title">공공기관 법률 업무의 숨겨진 비효율</h2>
+            <p class="section-subtitle">방대한 법령, 잦은 개정, 복잡한 보고서 검토 과정에서 발생하는 비효율과 잠재적 리스크를 AI 기술로 해결합니다.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 transform hover:scale-105 transition-transform">
+                    <div class="text-5xl font-extrabold text-[#0d6efd] mb-2">95%</div>
+                    <h3 class="text-xl font-bold mb-2">수작업 오류 감소</h3>
+                    <p class="text-gray-600">수동 검토 시 발생 가능한 법령 인용 오류를 최소화하여 보고서의 신뢰도를 극대화합니다.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 transform hover:scale-105 transition-transform">
+                    <div class="text-5xl font-extrabold text-[#0d6efd] mb-2">80%</div>
+                    <h3 class="text-xl font-bold mb-2">업무 시간 단축</h3>
+                    <p class="text-gray-600">법령 검색, 비교, 검증에 소요되는 시간을 획기적으로 절감하여 핵심 업무에 집중합니다.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 transform hover:scale-105 transition-transform">
+                    <div class="text-5xl font-extrabold text-[#0d6efd] mb-2">100%</div>
+                    <h3 class="text-xl font-bold mb-2">최신 법령 반영</h3>
+                    <p class="text-gray-600">국가법령정보센터 API와 연동하여 항상 최신 개정 법령을 기준으로 정확하게 검토합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="mb-24">
+            <h2 class="section-title text-center">솔루션의 핵심: RAG 기술 아키텍처</h2>
+            <p class="section-subtitle">최신 RAG(Retrieval-Augmented Generation) 아키텍처는 어떻게 사용자의 질문에 정확하고 신뢰성 있는 답변을 생성할까요? 전체 데이터 흐름을 통해 그 과정을 설명합니다.</p>
+            <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200">
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+                    <div class="flex flex-col items-center">
+                        <div class="flow-node p-4 rounded-lg w-48">
+                            <h4 class="font-bold">사용자 입력</h4>
+                            <p class="text-sm text-gray-600">보고서(HWP, PDF) 업로드 또는 자연어 질의</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow hidden md:block">&rightarrow;</div>
+                    <div class="flow-arrow md:hidden">&darr;</div>
+                    <div class="flex flex-col items-center">
+                        <div class="flow-node p-4 rounded-lg w-48">
+                            <h4 class="font-bold">1. 데이터 처리</h4>
+                            <p class="text-sm text-gray-600">문서 파싱 및 의미 단위(청크)로 분할</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow hidden md:block">&rightarrow;</div>
+                     <div class="flow-arrow md:hidden">&darr;</div>
+                    <div class="flex flex-col items-center">
+                        <div class="flow-node p-4 rounded-lg w-48">
+                            <h4 class="font-bold">2. 정보 검색</h4>
+                            <p class="text-sm text-gray-600">Vector DB에서 관련 법령 정보 검색 (Retriever)</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow hidden md:block">&rightarrow;</div>
+                    <div class="flow-arrow md:hidden">&darr;</div>
+                    <div class="flex flex-col items-center">
+                        <div class="flow-node p-4 rounded-lg w-48">
+                            <h4 class="font-bold">3. 답변 생성</h4>
+                            <p class="text-sm text-gray-600">LLM이 검색된 정보 기반으로 답변 생성</p>
+                        </div>
+                    </div>
+                     <div class="flow-arrow hidden md:block">&rightarrow;</div>
+                     <div class="flow-arrow md:hidden">&darr;</div>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-green-100 border-green-300 flow-node p-4 rounded-lg w-48">
+                            <h4 class="font-bold text-green-800">최종 결과</h4>
+                            <p class="text-sm text-green-700">검증 결과, 답변, 시각화 자료 제공</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="mb-24">
+            <h2 class="section-title text-center">주요 기능 및 서비스 구현 예시</h2>
+            <p class="section-subtitle">본 시스템은 공공기관 실무자의 업무 효율을 극대화하기 위한 4가지 핵심 기능을 제공합니다. 각 기능의 구체적인 활용 모습을 확인해보세요.</p>
+
+            <div class="flex justify-center mb-8 border-b border-gray-200">
+                <button data-tab="tab1" class="tab-button text-lg py-3 px-6 border-b-4 border-transparent transition-all -mb-px">보고서 법령 검증</button>
+                <button data-tab="tab2" class="tab-button text-lg py-3 px-6 border-b-4 border-transparent transition-all -mb-px">지능형 법령 검색</button>
+                <button data-tab="tab3" class="tab-button text-lg py-3 px-6 border-b-4 border-transparent transition-all -mb-px">법령 관계 시각화</button>
+                <button data-tab="tab4" class="tab-button text-lg py-3 px-6 border-b-4 border-transparent transition-all -mb-px">신/구법 비교</button>
+            </div>
+
+            <div id="tab1" class="tab-content">
+                <h3 class="text-2xl font-bold text-center mb-2">보고서 법령 크로스체크 및 검증</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">업로드한 보고서의 법령을 최신 데이터와 비교하여 정확성, 최신 버전 여부, 문맥 적합성까지 한번에 검증하고 수정 제안을 받습니다.</p>
+                <div class="mockup-window">
+                    <div class="mockup-header">
+                        <div class="mockup-dot bg-red-500"></div><div class="mockup-dot bg-yellow-500"></div><div class="mockup-dot bg-green-500"></div>
+                    </div>
+                    <div class="p-4 md:p-8 bg-gray-50 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-4 rounded-md border">
+                            <h4 class="font-bold mb-2">환경영향평가 사업계획서.hwp</h4>
+                            <div class="text-sm space-y-4 text-gray-700">
+                                <p>...이에 따라, 본 사업은 <span class="bg-yellow-200">「소음·진동관리법」 제21조</span>에 의거하여 생활소음 규제기준을 준수해야 합니다...</p>
+                                <p>...또한, <span class="bg-blue-200">「대기환경보전법」 제16조</span>에 따라 대기오염물질 배출시설 설치 허가를 득하였으며...</p>
+                                <p>...사업부지 내 폐기물 처리는 <span class="bg-red-200">「폐기물관리법」 제8조</span>의 규정에 따라 적법하게 처리할 계획입니다...</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-md border">
+                            <h4 class="font-bold mb-2">AI 검증 결과</h4>
+                            <ul class="text-sm space-y-2">
+                                <li class="p-2 rounded-md bg-red-100 border border-red-200">
+                                    <span class="font-bold text-red-700">오류:</span> 「폐기물관리법」 제8조
+                                    <p class="text-xs text-red-600 mt-1">사유: 해당 조항은 '폐기물처리업'에 대한 내용으로, '폐기물 처리 계획'과는 직접적 관련성이 낮음. '제13조(폐기물의 처리 기준 등)' 참조 필요.</p>
+                                    <button class="text-xs bg-red-500 text-white py-1 px-2 rounded-full mt-1">수정 제안 보기</button>
+                                </li>
+                                <li class="p-2 rounded-md bg-yellow-100 border border-yellow-200">
+                                    <span class="font-bold text-yellow-700">구법:</span> 「소음·진동관리법」 제21조
+                                    <p class="text-xs text-yellow-600 mt-1">사유: 2024.03.19 개정된 최신 법령이 아닙니다. 최신 조항으로 업데이트가 필요합니다.</p>
+                                    <button class="text-xs bg-yellow-500 text-white py-1 px-2 rounded-full mt-1">자동 수정</button>
+                                </li>
+                                <li class="p-2 rounded-md bg-green-100 border border-green-200">
+                                    <span class="font-bold text-green-700">정확:</span> 「대기환경보전법」 제16조
+                                    <p class="text-xs text-green-600 mt-1">최신 법령과 일치하며, 문맥상 적절하게 사용되었습니다.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab2" class="tab-content">
+                <h3 class="text-2xl font-bold text-center mb-2">지능형 법령 질의응답</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">복잡한 법령 정보를 직접 찾을 필요 없이, 자연어로 질문하여 필요한 법령, 판례, 해석례에 대한 정확한 답변과 근거 자료를 얻을 수 있습니다.</p>
+                <div class="mockup-window max-w-4xl mx-auto">
+                    <div class="mockup-header">
+                        <div class="mockup-dot bg-red-500"></div><div class="mockup-dot bg-yellow-500"></div><div class="mockup-dot bg-green-500"></div>
+                    </div>
+                    <div class="p-4 md:p-8 bg-gray-50">
+                        <div class="bg-white p-4 rounded-lg border h-96 flex flex-col">
+                           <div class="flex-grow space-y-4 overflow-y-auto">
+                                <div class="flex justify-end">
+                                    <p class="bg-blue-500 text-white p-3 rounded-lg max-w-md">공공기관의 개인정보 활용에 대한 법적 근거는 무엇인가요?</p>
+                                </div>
+                                <div class="flex justify-start">
+                                    <div class="bg-gray-200 p-3 rounded-lg max-w-lg">
+                                        <p>공공기관의 개인정보 활용은 주로 **「개인정보 보호법」**에 근거합니다. 주요 조항은 다음과 같습니다:</p>
+                                        <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+                                            <li>**제15조(개인정보의 수집·이용):** 정보주체의 동의를 받은 경우, 법률에 특별한 규정이 있거나 법령상 의무를 준수하기 위해 불가피한 경우 등에 개인정보를 수집하고 이용할 수 있습니다.</li>
+                                            <li>**제18조(개인정보의 목적 외 이용·제공 제한):** 원칙적으로 수집 목적 범위를 초과하여 이용하거나 제3자에게 제공할 수 없으나, 별도의 동의를 받거나 다른 법률에 특별한 규정이 있는 경우 등 예외적으로 허용됩니다.</li>
+                                        </ul>
+                                        <div class="mt-2 text-xs text-gray-500">
+                                            <p>참조: <a href="#" class="text-blue-600 underline">개인정보 보호법 (법률 제20448호)</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                           <div class="mt-4 flex">
+                               <input type="text" placeholder="질문을 입력하세요..." class="flex-grow border rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                               <button class="bg-blue-600 text-white px-4 rounded-r-lg font-bold">전송</button>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab3" class="tab-content">
+                 <h3 class="text-2xl font-bold text-center mb-2">세부 법령 관계도</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">선택한 법령을 중심으로 상위법, 하위법, 관련 규칙, 벌칙 조항까지 복잡한 법 체계를 인터랙티브 그래프로 한눈에 파악합니다.</p>
+                <div class="mockup-window">
+                    <div class="mockup-header">
+                        <div class="mockup-dot bg-red-500"></div><div class="mockup-dot bg-yellow-500"></div><div class="mockup-dot bg-green-500"></div>
+                    </div>
+                    <div class="p-4 md:p-8 bg-gray-50">
+                        <div class="bg-white p-4 rounded-md border">
+                             <h4 class="font-bold mb-4 text-center">「대기환경보전법」 관계도</h4>
+                            <div class="relative flex flex-col items-center p-6 min-h-[350px]">
+                                <!-- Main Law -->
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 p-3 bg-blue-600 text-white rounded-lg shadow-xl text-center">
+                                    <p class="font-bold">대기환경보전법</p>
+                                </div>
+                                <!-- Lines -->
+                                <div class="absolute top-1/2 left-1/2 w-px h-full bg-gray-200 -translate-x-1/2"></div>
+                                <div class="absolute top-1/2 left-1/2 h-px w-full bg-gray-200 -translate-y-1/2"></div>
+
+                                <!-- Related Laws -->
+                                <div class="absolute top-0 left-1/2 -translate-x-1/2 p-2 bg-slate-100 rounded-md text-center text-sm border">
+                                    <p class="font-semibold">상위법</p>
+                                    <p>「환경정책기본법」</p>
+                                </div>
+                                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 p-2 bg-slate-100 rounded-md text-center text-sm border">
+                                    <p class="font-semibold">하위법 (시행령)</p>
+                                    <p>대기환경보전법 시행령</p>
+                                </div>
+                                <div class="absolute top-1/3 left-4 p-2 bg-slate-100 rounded-md text-center text-sm border">
+                                    <p class="font-semibold">하위법 (시행규칙)</p>
+                                    <p>대기환경보전법 시행규칙</p>
+                                </div>
+                                <div class="absolute top-2/3 right-4 p-2 bg-red-100 rounded-md text-center text-sm border border-red-200">
+                                    <p class="font-semibold text-red-700">관련 벌칙</p>
+                                    <p>제90조 (벌칙)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab4" class="tab-content">
+                <h3 class="text-2xl font-bold text-center mb-2">신·구법 비교 및 개정 사유 분석</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">법령의 변경 이력을 추적하여 추가, 삭제, 수정된 조항을 하이라이트로 비교하고, LLM이 분석한 개정 배경과 사유까지 확인합니다.</p>
+                <div class="mockup-window">
+                    <div class="mockup-header">
+                        <div class="mockup-dot bg-red-500"></div><div class="mockup-dot bg-yellow-500"></div><div class="mockup-dot bg-green-500"></div>
+                    </div>
+                    <div class="p-4 md:p-8 bg-gray-50">
+                        <div class="bg-white p-4 rounded-md border">
+                            <h4 class="font-bold mb-4">「개인정보 보호법」 신·구조문 대비</h4>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                                <div>
+                                    <h5 class="font-bold mb-2">구법 (舊法)</h5>
+                                    <div class="p-4 bg-gray-50 rounded-lg space-y-2 h-64 overflow-y-auto">
+                                         <p>제17조(개인정보의 제공) ① 개인정보처리자는 다음 각 호의 어느 하나에 해당되는 경우에는 정보주체의 개인정보를 제3자에게 제공(공유를 포함한다. 이하 같다)할 수 있다.</p>
+                                         <p>1. 정보주체의 동의를 받은 경우</p>
+                                         <del class="bg-red-100">2. 제15조제1항제2호ㆍ제3호 및 제5호에 따라 개인정보를 수집한 목적 범위에서 개인정보를 제공하는 경우</del>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-2">신법 (新法)</h5>
+                                    <div class="p-4 bg-gray-50 rounded-lg space-y-2 h-64 overflow-y-auto">
+                                        <p>제17조(개인정보의 제공) ① 개인정보처리자는 다음 각 호의 어느 하나에 해당되는 경우에는 정보주체의 개인정보를 제3자에게 제공(공유를 포함한다. 이하 같다)할 수 있다.</p>
+                                        <p>1. 정보주체로부터 별도의 동의를 받은 경우</p>
+                                        <ins class="bg-green-100 no-underline">2. 제15조제1항제2호·제3호·제5호부터 제7호까지의 규정에 따라 개인정보를 수집한 목적 범위에서 개인정보를 제공하는 경우</ins>
+                                    </div>
+                                </div>
+                             </div>
+                             <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                                 <h5 class="font-bold text-blue-800">AI 개정 사유 분석</h5>
+                                 <p class="text-sm text-blue-700 mt-1">이번 개정은 개인정보의 수집 근거 조항이 확대됨에 따라, 목적 내 제공 근거도 함께 정비하여 법체계의 정합성을 맞추기 위한 것입니다. 특히 공중위생 등 공공의 안전을 위해 필요한 경우(제6호), 정보주체의 급박한 생명·신체·재산의 이익을 위해 필요한 경우(제7호)가 추가되었습니다.</p>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack" class="text-center">
+            <h2 class="section-title">주요 기술 스택</h2>
+            <p class="section-subtitle">최신 오픈소스 기술과 검증된 프레임워크를 활용하여 안정적이고 확장 가능한 시스템을 구축합니다.</p>
+            <div class="flex flex-wrap justify-center items-center gap-6 max-w-4xl mx-auto">
+                <div class="text-center p-4 bg-white rounded-lg shadow-md w-32 h-32 flex flex-col justify-center items-center">
+                    <span class="text-4xl">📘</span>
+                    <p class="font-bold mt-2">Python</p>
+                </div>
+                <div class="text-center p-4 bg-white rounded-lg shadow-md w-32 h-32 flex flex-col justify-center items-center">
+                     <span class="text-4xl">🔥</span>
+                    <p class="font-bold mt-2">PyTorch</p>
+                </div>
+                <div class="text-center p-4 bg-white rounded-lg shadow-md w-32 h-32 flex flex-col justify-center items-center">
+                    <span class="text-4xl">🔗</span>
+                    <p class="font-bold mt-2">LangChain</p>
+                </div>
+                <div class="text-center p-4 bg-white rounded-lg shadow-md w-32 h-32 flex flex-col justify-center items-center">
+                    <span class="text-4xl">🔍</span>
+                    <p class="font-bold mt-2">Weaviate</p>
+                </div>
+                 <div class="text-center p-4 bg-white rounded-lg shadow-md w-32 h-32 flex flex-col justify-center items-center">
+                    <span class="text-4xl">🤗</span>
+                    <p class="font-bold mt-2">HuggingFace</p>
+                </div>
+                <div class="text-center p-4 bg-white rounded-lg shadow-md w-32 h-32 flex flex-col justify-center items-center">
+                    <span class="text-4xl">⚖️</span>
+                    <p class="font-bold mt-2">Law.go.kr API</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#003366] text-white text-center py-8 px-6 mt-16">
+        <p class="font-bold">제1회 법령데이터 활용 아이디어 공모전</p>
+        <p class="text-sm text-blue-200 mt-1">RAG 기반 공공기관 법률 AI 어시스턴트</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.tab-content');
+
+            function activateTab(tabId) {
+                tabs.forEach(tab => {
+                    if (tab.dataset.tab === tabId) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+
+                contents.forEach(content => {
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    activateTab(tab.dataset.tab);
+                });
+            });
+
+            activateTab('tab1');
+
+            const roadmapCtx = document.getElementById('roadmapChart').getContext('2d');
+            const roadmapData = {
+                labels: [
+                    '1단계: 데이터 인프라 구축',
+                    '2단계: RAG 핵심 시스템 개발',
+                    '3단계: 추가 기능 및 시각화 구현',
+                    '4단계: 테스트, 최적화 및 배포'
+                ],
+                datasets: [{
+                    label: '개발 기간 (주)',
+                    data: [
+                        [1, 4],
+                        [5, 8],
+                        [9, 12],
+                        [13, 16]
+                    ],
+                    backgroundColor: [
+                        'rgba(13, 110, 253, 0.7)',
+                        'rgba(13, 110, 253, 0.7)',
+                        'rgba(13, 110, 253, 0.7)',
+                        'rgba(13, 110, 253, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(13, 110, 253, 1)',
+                        'rgba(13, 110, 253, 1)',
+                        'rgba(13, 110, 253, 1)',
+                        'rgba(13, 110, 253, 1)'
+                    ],
+                    borderWidth: 1,
+                    barPercentage: 0.5,
+                    borderSkipped: false,
+                }]
+            };
+
+            new Chart(roadmapCtx, {
+                type: 'bar',
+                data: roadmapData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            min: 0,
+                            max: 16,
+                            title: {
+                                display: true,
+                                text: '주차 (Weeks)'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    } else {
+                                      return label;
+                                    }
+                                },
+                                label: function(context) {
+                                    let value = context.raw;
+                                    return `${value[0]}주차 - ${value[1]}주차`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
